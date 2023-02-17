@@ -10,15 +10,15 @@ import {
 interface SmsData {
   body: string;
   sender: string;
-  simIndex: string;
+  simIndex?: string;
 }
 
 const App = () => {
   const [data, setData] = useState<SmsData[]>([]);
 
   useEffect(() => {
-    DeviceEventEmitter.addListener('onSmsReceive', ({sender, body, simIndex}) =>
-      setData(state => [...state, {sender, body, simIndex}]),
+    DeviceEventEmitter.addListener('onSmsReceive', ({sender, body}) =>
+      setData(state => [...state, {sender, body}]),
     );
   }, []);
 
@@ -28,11 +28,9 @@ const App = () => {
         data={data}
         renderItem={({item}) => (
           <View style={styles.textContainer}>
-            <Text>{item.simIndex}</Text>
+            <Text style={styles.textSender}>{item.sender}</Text>
             <Text>:</Text>
-            <Text>{item.sender}</Text>
-            <Text>:</Text>
-            <Text>{item.body}</Text>
+            <Text style={styles.textBody}>{item.body}</Text>
           </View>
         )}
       />
@@ -49,7 +47,14 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
     gap: 10,
+  },
+  textSender: {
+    fontSize: 16,
+  },
+  textBody: {
+    fontSize: 24,
   },
 });
 
