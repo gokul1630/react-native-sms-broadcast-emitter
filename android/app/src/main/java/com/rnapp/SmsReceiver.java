@@ -4,17 +4,20 @@ import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
-import com.rnapp.Sms.SmsBroadCast;
+import com.facebook.react.bridge.WritableNativeMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 public class SmsReceiver extends ReactContextBaseJavaModule {
+   private static ReactApplicationContext reactApplicationContext;
+    public SmsReceiver(ReactApplicationContext context){
+        super(context);
+        this.reactApplicationContext=context;
+    }
   
 
-    @ReactMethod
-    public String getMessage() {
-        SmsBroadCast smsBroadcast=new SmsBroadCast();
-    
-    return smsBroadcast.message();
+
+    public static void sendMessage(WritableNativeMap message) {
+        reactApplicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("onSmsReceive",message);
     }
 
     @NonNull

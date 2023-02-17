@@ -6,15 +6,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.gsm.SmsMessage;
-import android.widget.Toast;
+
+import com.facebook.react.bridge.WritableNativeMap;
+import com.rnapp.SmsReceiver;
 
 public class SmsBroadCast extends BroadcastReceiver {
-    private static final String TAG =
-            SmsBroadCast.class.getSimpleName();
 
     public static final String pdu_type = "pdus";
 
-    public String strMessage = "";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -41,16 +40,14 @@ public class SmsBroadCast extends BroadcastReceiver {
                     // If Android version L or older:
                     msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                 }
-                strMessage += "SMS from " + msgs[i].getOriginatingAddress();
 
-                strMessage += " :" + msgs[i].getMessageBody() + "\n";
-                Toast.makeText(context, strMessage, Toast.LENGTH_LONG).show();
+                WritableNativeMap writableNativeMap=new WritableNativeMap();
+                writableNativeMap.putString("sender",msgs[i].getOriginatingAddress());
+                writableNativeMap.putString("body",msgs[i].getMessageBody());
+
+               SmsReceiver.sendMessage(writableNativeMap);
             }
-
         }
     }
 
-    public String message(){
-        return strMessage;
-    }
 }
