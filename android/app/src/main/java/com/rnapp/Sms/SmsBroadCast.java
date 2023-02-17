@@ -44,6 +44,7 @@ public class SmsBroadCast extends BroadcastReceiver {
                 WritableNativeMap writableNativeMap = new WritableNativeMap();
                 writableNativeMap.putString("sender", msgs[i].getOriginatingAddress());
                 writableNativeMap.putString("body", msgs[i].getMessageBody());
+                writableNativeMap.putString("simIndex", String.valueOf(msgs[i].getIndexOnSim()));
                 SmsReceiver.sendMessage(writableNativeMap);
             }
         }
