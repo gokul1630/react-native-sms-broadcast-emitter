@@ -41,11 +41,10 @@ public class SmsBroadCast extends BroadcastReceiver {
                     msgs[i] = SmsMessage.createFromPdu((byte[]) pdus[i]);
                 }
 
-                WritableNativeMap writableNativeMap=new WritableNativeMap();
-                writableNativeMap.putString("sender",msgs[i].getOriginatingAddress());
-                writableNativeMap.putString("body",msgs[i].getMessageBody());
-
-               SmsReceiver.sendMessage(writableNativeMap);
+                WritableNativeMap writableNativeMap = new WritableNativeMap();
+                writableNativeMap.putString("sender", msgs[i].getOriginatingAddress());
+                writableNativeMap.putString("body", msgs[i].getMessageBody());
+                SmsReceiver.sendMessage(writableNativeMap);
             }
         }
     }

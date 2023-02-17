@@ -8,16 +8,16 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 public class SmsReceiver extends ReactContextBaseJavaModule {
-   private static ReactApplicationContext reactApplicationContext;
-    public SmsReceiver(ReactApplicationContext context){
+    private static ReactApplicationContext reactApplicationContext;
+
+    public SmsReceiver(ReactApplicationContext context) {
         super(context);
-        this.reactApplicationContext=context;
+        reactApplicationContext = context;
     }
-  
 
 
     public static void sendMessage(WritableNativeMap message) {
-        reactApplicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("onSmsReceive",message);
+        reactApplicationContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("onSmsReceive", message);
     }
 
     @NonNull
